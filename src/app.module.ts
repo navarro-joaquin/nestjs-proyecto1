@@ -24,6 +24,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         database: configService.get<string>('POSTGRES_DATABASE'),
         autoLoadEntities: true,
         synchronize: true,
+        ssl: configService.get<boolean>('POSTGRES_SSL') === true,
+        extra: {
+          ssl: configService.get<boolean>('POSTGRES_SSL') === true ? {
+            rejectUnauthorized: false
+          } : null
+        }
       }),
       inject: [ConfigService],
     }),
